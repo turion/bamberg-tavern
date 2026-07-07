@@ -4,10 +4,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bamberg Tavern</title>
+    <style>
+      body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        font-family: Georgia, serif;
+        color: #2c1a0e;
+        background: #fdf6ec;
+      }
+      h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+      .subtitle { font-style: italic; color: #6b4226; margin-bottom: 1.5rem; }
+      figure {
+        margin: 2rem 0;
+        text-align: center;
+      }
+      figure img {
+        width: 100%;
+        max-width: 720px;
+        border: 2px solid #b08050;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      }
+      figcaption {
+        font-size: 0.85rem;
+        color: #6b4226;
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
+      a { color: #6b4226; }
+      a:hover { color: #2c1a0e; }
+    </style>
   </head>
   <body>
     <h1>Bamberg Tavern</h1>
-    <p>This repository contains a Servant-based booking app for role-play evenings in Bamberg.</p>
-    <p>Run the server locally and open <code>/en</code> or <code>/de</code> for English/German booking pages.</p>
+    <p class="subtitle"><em>We want to enable people to immerse themselves in historical Bamberg.</em></p>
+    <p>
+      A tabletop role-playing game set in Bamberg, circa 1620 — and a booking app for live tavern role-play evenings.
+      Open <a href="/en">&#127468;&#127463; English</a> or <a href="/de">&#127465;&#127466; Deutsch</a> to book a slot.
+    </p>
+
+    <figure>
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/a/a7/1602_Zweidler_Vogelschauplan_von_Bamberg_Historisches_Museum_Bamberg_anagoria.jpg"
+        alt="The Zweidler Plan of Bamberg (1602) — a bird's-eye view of the city"
+      />
+      <figcaption>
+        The Zweidler Plan of Bamberg (1602) — your map of the city.
+        Source: <a href="https://commons.wikimedia.org/wiki/File:1602_Zweidler_Vogelschauplan_von_Bamberg_Historisches_Museum_Bamberg_anagoria.jpg">Wikimedia Commons</a>, Public Domain.
+      </figcaption>
+    </figure>
   </body>
 </html>

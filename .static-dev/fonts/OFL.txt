@@ -1,0 +1,1 @@
+/nix/store/s0dw4dnp5ch89xaaq6vnfjiqxh33614c-bamberg-tavern-static/fonts/OFL.txt

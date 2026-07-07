@@ -16,6 +16,45 @@
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       imports = [ haskell-flake.flakeModule ];
 
+      flake = {
+        nixosModules.default = { config, lib, pkgs, ... }:
+          let
+            cfg = config.services.bamberg-tavern;
+            package = inputs.self.packages.${pkgs.system}.bamberg-tavern;
+          in
+          {
+            options.services.bamberg-tavern = {
+              enable = lib.mkEnableOption "Bamberg Tavern booking app";
+              port = lib.mkOption {
+                type = lib.types.port;
+                default = 8080;
+                description = "Port the server listens on";
+              };
+              pdfDir = lib.mkOption {
+                type = lib.types.path;
+                description = "Directory containing the PDF rulebooks to serve at /pdfs";
+              };
+            };
+
+            config = lib.mkIf cfg.enable {
+              systemd.services.bamberg-tavern = {
+                description = "Bamberg Tavern booking app";
+                wantedBy = [ "multi-user.target" ];
+                after = [ "network.target" ];
+                environment = {
+                  PORT = toString cfg.port;
+                  PDF_DIR = cfg.pdfDir;
+                };
+                serviceConfig = {
+                  ExecStart = "${package}/bin/bamberg-tavern";
+                  DynamicUser = true;
+                  Restart = "on-failure";
+                };
+              };
+            };
+          };
+      };
+
       perSystem = { pkgs, ... }:
         let
           # EB Garamond variable fonts from google/fonts (SIL OFL 1.1).
@@ -87,9 +126,69 @@
             mv EBGaramond.woff2 $out/fonts/EBGaramond.woff2
             mv EBGaramond-Italic.woff2 $out/fonts/EBGaramond-Italic.woff2
           '';
+
+          fonts = [
+            pkgs.eb-garamond
+            pkgs.libertinus
+          ];
+          fontPaths = builtins.concatStringsSep ":" (map (f: "${f}/share/fonts") fonts);
+
+          zweidler-plan = pkgs.fetchurl {
+            url = "https://upload.wikimedia.org/wikipedia/commons/a/a7/1602_Zweidler_Vogelschauplan_von_Bamberg_Historisches_Museum_Bamberg_anagoria.jpg";
+            hash = "sha256-fAYiXVmD+Yxv6Q3lHhORzQe0gvtOf5Y8SQSfejqhmwo=";
+          };
+
+          buildBook = { name, entrypoint }:
+            pkgs.stdenv.mkDerivation {
+              inherit name;
+              src = ./.;
+              nativeBuildInputs = [ pkgs.typst ] ++ fonts;
+              buildPhase = ''
+                cp ${zweidler-plan} books/common/zweidler-plan.jpg
+                export TYPST_FONT_PATHS="${fontPaths}"
+                typst compile --root . ${entrypoint} ${name}.pdf
+              '';
+              installPhase = ''
+                mkdir -p $out
+                cp ${name}.pdf $out/
+              '';
+            };
+
+          books = {
+            player-book-en = buildBook {
+              name = "bamberg-tavern-player-en";
+              entrypoint = "books/player/en/main.typ";
+            };
+            player-book-de = buildBook {
+              name = "bamberg-tavern-player-de";
+              entrypoint = "books/player/de/main.typ";
+            };
+            gm-book-en = buildBook {
+              name = "bamberg-tavern-gm-en";
+              entrypoint = "books/gm/en/main.typ";
+            };
+            gm-book-de = buildBook {
+              name = "bamberg-tavern-gm-de";
+              entrypoint = "books/gm/de/main.typ";
+            };
+            scenes = buildBook {
+              name = "bamberg-tavern-scenes";
+              entrypoint = "scenes/main.typ";
+            };
+            scenes-de = buildBook {
+              name = "bamberg-tavern-scenes-de";
+              entrypoint = "scenes/de/main.typ";
+            };
+          };
         in
         {
-          packages.static-assets = staticAssets;
+          packages = books // {
+          all-pdfs = pkgs.symlinkJoin {
+            name = "bamberg-tavern-all-pdfs";
+            paths = builtins.attrValues books;
+            inherit staticAssets;
+          };
+        };
 
           haskellProjects.default = {
             basePackages = pkgs.haskell.packages.ghc912;
