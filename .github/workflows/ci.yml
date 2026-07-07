@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v17
+        with:
+          name: bamberg-tavern
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Nix flake checks
+        run: nix flake check
+
+  fourmolu:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: haskell-actions/run-fourmolu@v13
+
+  cabal-gild:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: tfausak/cabal-gild-setup-action@v2
+      - run: cabal-gild --input bamberg-tavern.cabal --mode check

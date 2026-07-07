@@ -1,0 +1,61 @@
+cabal-version: 3.0
+name: bamberg-tavern
+version: 0.1.0.0
+license: EUPL-1.2
+license-file: LICENSE
+author: Manuel Bärenz
+maintainer: programming@manuelbaerenz.de
+build-type: Simple
+extra-doc-files: README.md
+
+common common-options
+  ghc-options: -Wall
+  default-language: GHC2021
+
+library
+  import: common-options
+  hs-source-dirs: src
+  exposed-modules: Tavern.Booking
+  build-depends:
+    aeson,
+    base >=4.14 && <5,
+    containers,
+    text,
+
+executable bamberg-tavern
+  import: common-options
+  hs-source-dirs:
+    app
+    src
+
+  main-is: Main.hs
+
+  -- servant-server 0.20.x currently supports base < 4.22; GHC 9.14+ ships base 4.22+.
+  -- Keep the executable enabled in Nix (GHC 9.12) while allowing library/tests to run here.
+  if impl(ghc >=9.14)
+    buildable: False
+  else
+    build-depends:
+      bamberg-tavern,
+      base >=4.14 && <5,
+      containers,
+      http-api-data,
+      lucid,
+      mtl,
+      servant,
+      servant-lucid,
+      servant-server,
+      string-conversions,
+      text,
+      wai,
+      warp,
+
+test-suite bamberg-tavern-test
+  import: common-options
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Spec.hs
+  build-depends:
+    bamberg-tavern,
+    base >=4.14 && <5,
+    hspec,

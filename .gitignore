@@ -1,0 +1,5 @@
+dist-newstyle/
+.cabal-sandbox/
+*.hi
+*.o
+*.dyn_o
