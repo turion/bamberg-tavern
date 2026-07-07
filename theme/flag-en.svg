@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="26" viewBox="0 0 34 26" role="img" aria-label="English">
+  <defs>
+    <clipPath id="banner-en">
+      <path d="M2 1 h30 v18 l-6 5 l-9 -4 l-9 4 l-6 -5 z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#banner-en)">
+    <!-- Union Jack -->
+    <rect width="34" height="26" fill="#012169"/>
+    <path d="M0 0 L34 26 M34 0 L0 26" stroke="#ffffff" stroke-width="4"/>
+    <path d="M0 0 L34 26 M34 0 L0 26" stroke="#C8102E" stroke-width="1.6"/>
+    <path d="M17 0 v26 M0 13 h34" stroke="#ffffff" stroke-width="6"/>
+    <path d="M17 0 v26 M0 13 h34" stroke="#C8102E" stroke-width="3.2"/>
+  </g>
+  <path d="M2 1 h30 v18 l-6 5 l-9 -4 l-9 4 l-6 -5 z"
+        fill="none" stroke="#4a2a12" stroke-width="1" stroke-linejoin="round"/>
+</svg>

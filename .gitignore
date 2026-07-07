@@ -3,3 +3,7 @@ dist-newstyle/
 *.hi
 *.o
 *.dyn_o
+.static-dev/
+.screenshots/
+result
+.playwright-mcp/

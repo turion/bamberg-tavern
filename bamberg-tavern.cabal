@@ -23,7 +23,13 @@ common common-options
 library
   import: common-options
   hs-source-dirs: src
-  exposed-modules: Tavern.Booking
+  exposed-modules:
+    Tavern.Booking
+    Tavern.View
+
+  build-depends:
+    lucid,
+    string-conversions,
 
 executable bamberg-tavern
   import: common-options
@@ -37,8 +43,8 @@ executable bamberg-tavern
     servant,
     servant-lucid,
     servant-server,
-    string-conversions,
     wai,
+    wai-app-static,
     warp,
 
 test-suite bamberg-tavern-test

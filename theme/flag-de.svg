@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="26" viewBox="0 0 34 26" role="img" aria-label="Deutsch">
+  <defs>
+    <clipPath id="banner-de">
+      <path d="M2 1 h30 v18 l-6 5 l-9 -4 l-9 4 l-6 -5 z"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#banner-de)">
+    <rect x="0" y="0"  width="34" height="9"  fill="#000000"/>
+    <rect x="0" y="9"  width="34" height="9"  fill="#DD0000"/>
+    <rect x="0" y="18" width="34" height="8"  fill="#FFCE00"/>
+  </g>
+  <path d="M2 1 h30 v18 l-6 5 l-9 -4 l-9 4 l-6 -5 z"
+        fill="none" stroke="#4a2a12" stroke-width="1" stroke-linejoin="round"/>
+</svg>

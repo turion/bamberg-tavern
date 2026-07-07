@@ -1,0 +1,132 @@
+/* Bamberg Tavern — historical theme overrides on top of Pico.css v2 (classless). */
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/static/fonts/EBGaramond.woff2") format("woff2-variations"),
+       url("/static/fonts/EBGaramond.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/static/fonts/EBGaramond-Italic.woff2") format("woff2-variations"),
+       url("/static/fonts/EBGaramond-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --pico-font-family: "EB Garamond", Georgia, "Times New Roman", serif;
+  --pico-font-family-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --pico-font-family-sans-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  --pico-font-size: 18px;
+  --pico-line-height: 1.55;
+  --pico-border-radius: 0.15rem;
+}
+
+[data-theme="light"], :root:not([data-theme="dark"]) {
+  --pico-background-color: #f4ecd8;
+  --pico-color: #3b2a1a;
+  --pico-h1-color: #4a2a12;
+  --pico-h2-color: #4a2a12;
+  --pico-h3-color: #4a2a12;
+  --pico-muted-color: #6b533a;
+  --pico-muted-border-color: #c9b58a;
+  --pico-primary: #8b1a1a;
+  --pico-primary-background: #8b1a1a;
+  --pico-primary-border: #6b1010;
+  --pico-primary-hover: #a83232;
+  --pico-primary-hover-background: #a83232;
+  --pico-primary-inverse: #f4ecd8;
+  --pico-primary-focus: rgba(139, 26, 26, 0.35);
+  --pico-secondary: #b8860b;
+  --pico-secondary-background: #b8860b;
+  --pico-secondary-hover: #d4a017;
+  --pico-secondary-hover-background: #d4a017;
+  --pico-form-element-background-color: #fbf5e3;
+  --pico-form-element-border-color: #b89468;
+  --pico-form-element-focus-color: #8b1a1a;
+  --pico-card-background-color: #fbf5e3;
+  --pico-card-border-color: #c9b58a;
+  --pico-card-sectioning-background-color: #f0e4c8;
+}
+
+body {
+  background-color: var(--pico-background-color);
+  background-image:
+    radial-gradient(ellipse at top left, rgba(120, 80, 40, 0.14), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(120, 80, 40, 0.18), transparent 60%),
+    url("/static/noise.svg");
+  background-attachment: fixed, fixed, scroll;
+  background-repeat: no-repeat, no-repeat, repeat;
+}
+
+main {
+  max-width: 44rem;
+  margin: 2.5rem auto;
+  padding: 2rem 2.5rem;
+  background-color: rgba(251, 245, 227, 0.72);
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 0.3rem;
+  box-shadow: 0 2px 8px rgba(80, 50, 20, 0.15);
+}
+
+nav ul {
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+nav li {
+  padding: 0;
+}
+
+a.lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+img.flag {
+  height: 1.35em;
+  width: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 1px 1px rgba(80, 50, 20, 0.35));
+}
+
+h1, h2, h3 {
+  letter-spacing: 0.01em;
+  font-variant: small-caps;
+}
+
+h1 {
+  border-bottom: 2px solid var(--pico-secondary);
+  padding-bottom: 0.3rem;
+  margin-bottom: 1.2rem;
+}
+
+h1::first-letter {
+  font-size: 1.35em;
+  color: var(--pico-secondary);
+  font-weight: 700;
+}
+
+article, form {
+  border: 1px solid var(--pico-muted-border-color);
+  box-shadow: 0 1px 3px rgba(80, 50, 20, 0.08);
+}
+
+button, input[type="submit"] {
+  font-family: var(--pico-font-family);
+  letter-spacing: 0.03em;
+}
+
+a {
+  text-decoration-color: var(--pico-secondary);
+  text-underline-offset: 0.15em;
+}

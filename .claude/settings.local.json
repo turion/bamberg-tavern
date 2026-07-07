@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:picocss.com)",
+      "Bash(nix flake *)",
+      "Bash(nix build *)",
+      "Bash(nix hash *)",
+      "Bash(nix develop *)",
+      "Bash(cabal run *)",
+      "mcp__playwright__browser_navigate",
+      "Bash(nix eval *)",
+      "mcp__playwright__browser_take_screenshot",
+      "Bash(dev-run)",
+      "Bash(curl -sf http://localhost:8080/)",
+      "Bash(echo \"Server PID: $!\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/)",
+      "mcp__playwright__browser_fill_form",
+      "mcp__playwright__browser_click"
+    ]
+  }
+}
