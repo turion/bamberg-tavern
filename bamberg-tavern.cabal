@@ -1,0 +1,56 @@
+cabal-version: 3.0
+name: bamberg-tavern
+version: 0.1.0.0
+license: EUPL-1.2
+license-file: LICENSE
+author: Manuel Bärenz
+maintainer: programming@manuelbaerenz.de
+build-type: Simple
+extra-doc-files: README.md
+
+common common-options
+  ghc-options: -Wall
+
+  if flag(ci)
+    ghc-options: -Werror
+  default-language: GHC2021
+  build-depends:
+    aeson,
+    base ^>=4.21,
+    containers,
+    text,
+
+library
+  import: common-options
+  hs-source-dirs: src
+  exposed-modules: Tavern.Booking
+
+executable bamberg-tavern
+  import: common-options
+  hs-source-dirs: app
+  main-is: Main.hs
+  build-depends:
+    bamberg-tavern,
+    http-api-data,
+    lucid,
+    mtl,
+    servant,
+    servant-lucid,
+    servant-server,
+    string-conversions,
+    wai,
+    warp,
+
+test-suite bamberg-tavern-test
+  import: common-options
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Spec.hs
+  build-depends:
+    bamberg-tavern,
+    hspec,
+
+flag ci
+  description: Enable -Werror on CI
+  default: False
+  manual: True
