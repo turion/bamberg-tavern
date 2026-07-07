@@ -16,7 +16,9 @@
         haskellProjects.default = {
           basePackages = pkgs.haskell.packages.ghc912;
           projectRoot = ./.;
-          autoWire = [ "packages" "apps" "checks" ];
+          autoWire = [ "packages" "apps" "checks" "devShells" ];
+          defaults.enable = true;
+          devShell.hlsCheck.enable = true;
         };
       };
     };

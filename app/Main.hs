@@ -12,7 +12,6 @@ import Data.String.Conversions (cs)
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Lucid
-import Network.Wai (Application)
 import Network.Wai.Handler.Warp (run)
 import Servant
 import Servant.HTML.Lucid

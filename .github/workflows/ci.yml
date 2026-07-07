@@ -22,8 +22,11 @@ jobs:
           name: bamberg-tavern
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
-      - name: Nix flake checks
-        run: nix flake check
+      - name: Nix flake check HLS (needs internet access)
+        run: nix flake check --option sandbox false
+
+      - name: Build
+        run: nix build .#bamberg-tavern
 
   fourmolu:
     runs-on: ubuntu-latest

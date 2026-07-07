@@ -10,45 +10,36 @@ extra-doc-files: README.md
 
 common common-options
   ghc-options: -Wall
+
+  if flag(ci)
+    ghc-options: -Werror
   default-language: GHC2021
+  build-depends:
+    aeson,
+    base ^>=4.21,
+    containers,
+    text,
 
 library
   import: common-options
   hs-source-dirs: src
   exposed-modules: Tavern.Booking
-  build-depends:
-    aeson,
-    base >=4.14 && <5,
-    containers,
-    text,
 
 executable bamberg-tavern
   import: common-options
-  hs-source-dirs:
-    app
-    src
-
+  hs-source-dirs: app
   main-is: Main.hs
-
-  -- servant-server 0.20.x currently supports base < 4.22; GHC 9.14+ ships base 4.22+.
-  -- Keep the executable enabled in Nix (GHC 9.12) while allowing library/tests to run here.
-  if impl(ghc >=9.14)
-    buildable: False
-  else
-    build-depends:
-      bamberg-tavern,
-      base >=4.14 && <5,
-      containers,
-      http-api-data,
-      lucid,
-      mtl,
-      servant,
-      servant-lucid,
-      servant-server,
-      string-conversions,
-      text,
-      wai,
-      warp,
+  build-depends:
+    bamberg-tavern,
+    http-api-data,
+    lucid,
+    mtl,
+    servant,
+    servant-lucid,
+    servant-server,
+    string-conversions,
+    wai,
+    warp,
 
 test-suite bamberg-tavern-test
   import: common-options
@@ -57,5 +48,9 @@ test-suite bamberg-tavern-test
   main-is: Spec.hs
   build-depends:
     bamberg-tavern,
-    base >=4.14 && <5,
     hspec,
+
+flag ci
+  description: Enable -Werror on CI
+  default: False
+  manual: True
