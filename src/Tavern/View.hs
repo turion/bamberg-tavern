@@ -38,6 +38,14 @@ homePage lang slotViews message =
       li_ (a_ [href_ "/en", class_ "lang"] (langBanner "en" "English"))
       li_ (a_ [href_ "/de", class_ "lang"] (langBanner "de" "Deutsch"))
       li_ (a_ [href_ "/admin"] (toHtml (adminLinkText lang)))
+    p_ $ do
+      toHtml (guidesIntroText lang)
+      toHtml (" " :: Text)
+      a_ [href_ (playerGuidePdf lang)] (toHtml (playerGuideText lang))
+      toHtml (" | " :: Text)
+      a_ [href_ (gmGuidePdf lang)] (toHtml (gmGuideText lang))
+      toHtml (" | " :: Text)
+      a_ [href_ (scenesPdf lang)] (toHtml (scenesLinkText lang))
     maybe mempty (\m -> article_ (p_ (toHtml m))) message
     if null slotViews
       then p_ (toHtml (noSlotsText lang))
@@ -145,3 +153,31 @@ bookedByText German names = "Gebucht von: " <> Text.intercalate ", " names
 
 tshow :: (Show a) => a -> Text
 tshow = cs . show
+
+guidesIntroText :: Lang -> Text
+guidesIntroText English = "Guides:"
+guidesIntroText German = "Handbücher:"
+
+playerGuideText :: Lang -> Text
+playerGuideText English = "Player's Guide"
+playerGuideText German = "Spielerhandbuch"
+
+gmGuideText :: Lang -> Text
+gmGuideText English = "Game Master's Guide"
+gmGuideText German = "Spielleiterhandbuch"
+
+scenesLinkText :: Lang -> Text
+scenesLinkText English = "Example Scenes"
+scenesLinkText German = "Beispielszenen"
+
+playerGuidePdf :: Lang -> Text
+playerGuidePdf English = "/pdfs/bamberg-tavern-player-en.pdf"
+playerGuidePdf German = "/pdfs/bamberg-tavern-player-de.pdf"
+
+gmGuidePdf :: Lang -> Text
+gmGuidePdf English = "/pdfs/bamberg-tavern-gm-en.pdf"
+gmGuidePdf German = "/pdfs/bamberg-tavern-gm-de.pdf"
+
+scenesPdf :: Lang -> Text
+scenesPdf English = "/pdfs/bamberg-tavern-scenes.pdf"
+scenesPdf German = "/pdfs/bamberg-tavern-scenes-de.pdf"

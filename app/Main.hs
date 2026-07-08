@@ -47,22 +47,25 @@ type API =
     :<|> "book" :> ReqBody '[FormUrlEncoded] BookForm :> Post '[HTML] (Html ())
     :<|> "api" :> "slots" :> Get '[JSON] [SlotView]
     :<|> "static" :> Raw
+    :<|> "pdfs" :> Raw
 
 main :: IO ()
 main = do
+  port <- maybe 8080 read <$> lookupEnv "PORT"
   staticDir <-
     lookupEnv "BAMBERG_STATIC_DIR" >>= \case
       Just d -> pure d
       Nothing -> die "BAMBERG_STATIC_DIR is not set. Enter the Nix dev shell (nix develop / direnv) or set it manually to the output of `nix build .#static-assets`."
   state <- newIORef emptyBookingState
-  putStrLn ("bamberg-tavern server at http://localhost:8080 (static: " <> staticDir <> ")")
-  run 8080 (app staticDir state)
+  pdfDir <- fromMaybe "./result" <$> lookupEnv "PDF_DIR"
+  putStrLn $ "bamberg-tavern server at http://localhost:" <> show port <> " (static: " <> staticDir <> ", pdfs: " <> pdfDir <> ")"
+  run port (app staticDir state pdfDir)
 
-app :: FilePath -> IORef BookingState -> Application
-app staticDir bookingState = serve (Proxy @API) (server staticDir bookingState)
+app :: FilePath -> IORef BookingState -> FilePath -> Application
+app staticDir bookingState pdfDir = serve (Proxy @API) (server staticDir bookingState pdfDir)
 
-server :: FilePath -> IORef BookingState -> Server API
-server staticDir bookingState =
+server :: FilePath -> IORef BookingState -> FilePath -> Server API
+server staticDir bookingState pdfDir =
   renderHome bookingState English Nothing
     :<|> renderHome bookingState English Nothing
     :<|> renderHome bookingState German Nothing
@@ -71,6 +74,7 @@ server staticDir bookingState =
     :<|> bookSlotHandler bookingState
     :<|> (toSlotViews <$> liftIO (readIORef bookingState))
     :<|> serveDirectoryWebApp staticDir
+    :<|> serveDirectoryWebApp pdfDir
 
 adminCreateSlot :: IORef BookingState -> AdminSlotForm -> Handler (Html ())
 adminCreateSlot bookingState form =

@@ -5,5 +5,16 @@ dist-newstyle/
 *.dyn_o
 .static-dev/
 .screenshots/
-result
 .playwright-mcp/
+
+# Build outputs
+result
+
+# Nix
+.direnv/
+
+# Copyrighted bought e-books
+book-sources/
+
+# local settings
+.claude
